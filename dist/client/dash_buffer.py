@@ -21,8 +21,8 @@ class DashPlayer:
         self.playback_start_time = None
         self.playback_duration = video_length
         self.segment_duration = segment_duration
-        #print "video_length = {}".format(video_length)
-        #print "segment_duration = {}".format(segment_duration)
+        #print("video_length = {}".format(video_length))
+        #print("segment_duration = {}".format(segment_duration))
         # Timers to keep track of playback time and the actual time
         self.playback_timer = StopWatch()
         self.actual_start_time = None

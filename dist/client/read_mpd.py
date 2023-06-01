@@ -111,7 +111,7 @@ def get_url_list(media, segment_duration,  playback_duration, bitrate):
             total_playback += segment_duration
     elif FORMAT == 1:
         media.url_list = URL_LIST
-    #print media.url_list
+    #print(media.url_list)
     return media
 
 
@@ -139,7 +139,7 @@ def read_mpd(mpd_file, dashplayback):
     elif "Period" in get_tag_name(root[1].tag):
         child_period = root[1]
         FORMAT = 1
-    #print child_period
+    #print(child_period)
     video_segment_duration = None
     if FORMAT == 0:
         for adaptation_set in child_period:
@@ -206,8 +206,8 @@ def read_mpd(mpd_file, dashplayback):
                 media_object[bandwidth].base_url = root[0].text
                 tempcut_url = root[0].text.split('/',3)[2:]
                 cut_url = tempcut_url[1]
-                print "cut_url = {}".format(cut_url)
-                #print root[0].text
+                print("cut_url = {}".format(cut_url))
+                #print(root[0].text)
                 for segment_info in representation:
                     if "SegmentBase" in get_tag_name(segment_info.tag):
                         for init in segment_info:
@@ -223,15 +223,15 @@ def read_mpd(mpd_file, dashplayback):
                                         Ssize = segment_URL.attrib['media'].split('/')[0]
                                         Ssize = Ssize.split('_')[-1];
                                         Ssize = Ssize.split('kbit')[0];
-                                        #print "ssize"
-                                        #print Ssize
+                                        #print("ssize")
+                                        #print(Ssize)
                                         segment_size = float(Ssize) * float(
                                             SIZE_DICT["Kbits"])
                                     except KeyError, e:
                                         config_dash.LOG.error("Error in reading Segment sizes :{}".format(e))
                                         continue
                                     segurl = cut_url + segment_URL.attrib['media']
-                                    #print segurl
+                                    #print(segurl)
                                     URL_LIST.append(segurl)
                                     media_object[bandwidth].segment_sizes.append(segment_size)
 
@@ -239,6 +239,6 @@ def read_mpd(mpd_file, dashplayback):
 
     else:
 
-        print "Error: UknownFormat of MPD file!"
+        print("Error: UknownFormat of MPD file!")
 
     return dashplayback, int(video_segment_duration)
