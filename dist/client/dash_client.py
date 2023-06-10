@@ -35,9 +35,9 @@ from configure_log_file import configure_log_file, write_json
 import time
 
 try:
-    WindowsError
+    OSError
 except NameError:
-    from shutil import WindowsError
+    from shutil import OSError
 
 
 # Constants
@@ -70,11 +70,11 @@ def get_mpd(url):
     """ Module to download the MPD from the URL and save it to file"""
     print(url)
     try:
-        connection = urllib2.urlopen(url, timeout=10)
-    except urllib2.HTTPError as error:
+        connection = urllib.request.urlopen(url, timeout=10)
+    except urllib.error.HTTPError as error:
         config_dash.LOG.error("Unable to download MPD file HTTP Error: %s" % error.code)
         return None
-    except urllib2.URLError:
+    except urllib.error.URLError:
         error_message = "URLError. Unable to reach Server.Check if Server active"
         config_dash.LOG.error(error_message)
         print(error_message)

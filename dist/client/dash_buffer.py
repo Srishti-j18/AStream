@@ -1,5 +1,5 @@
 from __future__ import division
-import Queue
+import queue
 import threading
 import time
 import csv
