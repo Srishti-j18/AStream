@@ -14,14 +14,15 @@ Testing:
 """
 from __future__ import division
 import read_mpd
-import urlparse
-import urllib2
+from urllib.parse import urlparse
+import urllib.request
+import urllib.error
 import random
 import os
 import sys
 import errno
 import timeit
-import httplib
+import http.client
 from string import ascii_letters, digits
 from argparse import ArgumentParser
 from multiprocessing import Process, Queue
