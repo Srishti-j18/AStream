@@ -70,7 +70,7 @@ def get_mpd(url):
     print(url)
     try:
         connection = urllib2.urlopen(url, timeout=10)
-    except urllib2.HTTPError, error:
+    except urllib2.HTTPError as error:
         config_dash.LOG.error("Unable to download MPD file HTTP Error: %s" % error.code)
         return None
     except urllib2.URLError:
@@ -78,7 +78,7 @@ def get_mpd(url):
         config_dash.LOG.error(error_message)
         print(error_message)
         return None
-    except IOError, httplib.HTTPException:
+    except IOError as http_error:
         message = "Unable to , file_identifierdownload MPD file HTTP Error."
         config_dash.LOG.error(message)
         return None
@@ -119,7 +119,7 @@ def download_segment(segment_url, dash_folder):
     """ Module to download the segment """
     try:
         connection = urllib2.urlopen(segment_url)
-    except urllib2.HTTPError, error:
+    except urllib2.HTTPError as error:
         config_dash.LOG.error("Unable to download DASH Segment {} HTTP Error:{} ".format(segment_url, str(error.code)))
         return None
     parsed_uri = urlparse.urlparse(segment_url)
@@ -274,7 +274,7 @@ def start_playback_smart(dp_object, domain, playback_type=None, download=False, 
                                                                              current_bitrate,
                                                                              get_segment_sizes(dp_object,
                                                                                                segment_number+1))
-                    except IndexError, e:
+                    except IndexError as e:
                         config_dash.LOG.error(e)
 
             elif playback_type.upper() == "NETFLIX":
@@ -292,7 +292,7 @@ def start_playback_smart(dp_object, domain, playback_type=None, download=False, 
                             bitrates, dash_player, segment_download_rate, current_bitrate, average_segment_sizes,
                             netflix_rate_map, netflix_state)
                         config_dash.LOG.info("NETFLIX: Next bitrate = {}".format(current_bitrate))
-                    except IndexError, e:
+                    except IndexError as e:
                         config_dash.LOG.error(e)
                 else:
                     config_dash.LOG.critical("Completed segment playback for Netflix")
@@ -333,7 +333,7 @@ def start_playback_smart(dp_object, domain, playback_type=None, download=False, 
             #print(file_identifier)
             segment_size, segment_filename = download_segment(segment_url, file_identifier)
             config_dash.LOG.info("{}: Downloaded segment {}".format(playback_type.upper(), segment_url))
-        except IOError, e:
+        except IOError as e:
             config_dash.LOG.error("Unable to save segment %s" % e)
             return None
         segment_download_time = timeit.default_timer() - start_time
@@ -418,7 +418,7 @@ def clean_files(folder_path):
                 if os.path.isfile(file_path):
                     os.unlink(file_path)
             os.rmdir(folder_path)
-        except (WindowsError, OSError), e:
+        except (WindowsError, OSError) as e:
             config_dash.LOG.info("Unable to delete the folder {}. {}".format(folder_path, e))
         config_dash.LOG.info("Deleted the folder '{}' and its contents".format(folder_path))
 

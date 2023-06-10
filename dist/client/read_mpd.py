@@ -174,7 +174,7 @@ def read_mpd(mpd_file, dashplayback):
                                     try:
                                         segment_size = float(segment_info.attrib['size']) * float(
                                             SIZE_DICT[segment_info.attrib['scale']])
-                                    except KeyError, e:
+                                    except KeyError as e:
                                         config_dash.LOG.error("Error in reading Segment sizes :{}".format(e))
                                         continue
                                     media_object[bandwidth].segment_sizes.append(segment_size)
@@ -227,7 +227,7 @@ def read_mpd(mpd_file, dashplayback):
                                         #print(Ssize)
                                         segment_size = float(Ssize) * float(
                                             SIZE_DICT["Kbits"])
-                                    except KeyError, e:
+                                    except KeyError as e:
                                         config_dash.LOG.error("Error in reading Segment sizes :{}".format(e))
                                         continue
                                     segurl = cut_url + segment_URL.attrib['media']
