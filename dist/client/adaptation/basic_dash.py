@@ -1,7 +1,16 @@
 __author__ = 'pjuluri'
 
+
 import config_dash
-from adaptation.adaptation import calculate_rate_index
+import sys
+
+try:
+    # Try importing with Python 3 style import
+    from adaptation.adaptation import calculate_rate_index
+except ImportError:
+    # Fallback to Python 2 style import
+    from adaptation import calculate_rate_index
+
 
 
 def basic_dash(segment_number, bitrates, average_dwn_time,

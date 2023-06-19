@@ -14,9 +14,18 @@ Testing:
 """
 from __future__ import division
 import read_mpd
-from urllib.parse import urlparse
-import urllib.request
-import urllib.error
+import future       
+import builtins      
+import past           
+import six           
+
+
+from future.standard_library import install_aliases
+install_aliases()
+
+from urllib.parse import urlparse, urlencode
+from urllib.request import urlopen, Request
+from urllib.error import HTTPError
 import random
 import os
 import sys
@@ -70,8 +79,8 @@ def get_mpd(url):
     """ Module to download the MPD from the URL and save it to file"""
     print(url)
     try:
-        connection = urllib.request.urlopen(url, timeout=10)
-    except urllib.error.HTTPError as error:
+        connection = urlopen(url, timeout=10)
+    except HTTPError as error:
         config_dash.LOG.error("Unable to download MPD file HTTP Error: %s" % error.code)
         return None
     except urllib.error.URLError:
@@ -104,7 +113,7 @@ def get_domain_name(url):
     """ Module to obtain the domain name from the URL
         From : http://stackoverflow.com/questions/9626535/get-domain-name-from-url
     """
-    parsed_uri = urlparse.urlparse(url)
+    parsed_uri = urlparse(url)
     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
     return domain
 
