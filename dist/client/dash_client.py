@@ -85,8 +85,8 @@ def get_mpd(url):
     """ Module to download the MPD from the URL and save it to file"""
     print(url)
     try:
-        connection = urllib2.urlopen(url, timeout=10)
-    except urllib2.HTTPError as error:
+        connection = urllib_request.urlopen(url, timeout=10)
+    except urllib_error.HTTPError as error:
         config_dash.LOG.error("Unable to download MPD file HTTP Error: %s" % error.code)
         return None
     except urllib2.URLError:
@@ -134,8 +134,8 @@ def id_generator(id_size=6):
 def download_segment(segment_url, dash_folder):
     """ Module to download the segment """
     try:
-        connection = urllib2.urlopen(segment_url)
-    except urllib2.HTTPError as error:
+        connection = urllib_request.urlopen(segment_url)
+    except urllib_error.HTTPError as error:
         config_dash.LOG.error("Unable to download DASH Segment {} HTTP Error:{} ".format(segment_url, str(error.code)))
         return None
     parsed_uri = urlparse.urlparse(segment_url)
