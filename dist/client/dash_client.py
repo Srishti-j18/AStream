@@ -37,7 +37,15 @@ import os
 import sys
 import errno
 import timeit
-import httplib
+import sys
+
+if sys.version_info[0] < 3:
+    # Python 2
+    import httplib as http_client
+else:
+    # Python 3
+    import http.client as http_client
+
 from string import ascii_letters, digits
 from argparse import ArgumentParser
 from multiprocessing import Process, Queue
