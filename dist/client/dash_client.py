@@ -17,7 +17,7 @@ import read_mpd
 import six
 
 import sys
-import sys
+
 
 if sys.version_info[0] < 3:
     # Python 2
@@ -57,10 +57,17 @@ import dash_buffer
 from configure_log_file import configure_log_file, write_json
 import time
 
-try:
-    WindowsError
-except NameError:
-    from shutil import WindowsError
+if sys.version_info[0] < 3:
+    # Python 2
+    import shutil
+else:
+    # Python 3
+    import shutil
+
+    try:
+        from shutil import WindowsError
+    except ImportError:
+        WindowsError = OSError
 
 
 # Constants
