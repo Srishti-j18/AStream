@@ -70,6 +70,7 @@ else:
         WindowsError = OSError
 
 
+
 # Constants
 DEFAULT_PLAYBACK = 'BASIC'
 DOWNLOAD_CHUNK = 1024
@@ -104,7 +105,7 @@ def get_mpd(url):
     except urllib_error.HTTPError as error:
         config_dash.LOG.error("Unable to download MPD file HTTP Error: %s" % error.code)
         return None
-    except urllib2.URLError:
+    except urllib_error.URLError:
         error_message = "URLError. Unable to reach Server.Check if Server active"
         config_dash.LOG.error(error_message)
         print(error_message)
@@ -118,7 +119,15 @@ def get_mpd(url):
     connection.close()
     mpd_file = url.split('/')[-1]
     mpd_file_handle = open(mpd_file, 'w')
-    mpd_file_handle.write(mpd_data)
+    if sys.version_info[0] < 3:
+    # Python 2
+        mpd_file_handle.write(mpd_data)
+    else:
+    # Python 3
+        if isinstance(mpd_data, bytes):
+            mpd_file_handle.write(mpd_data.decode('utf-8'))
+        else:
+            mpd_file_handle.write(mpd_data)
     mpd_file_handle.close()
     config_dash.LOG.info("Downloaded the MPD file {}".format(mpd_file))
     return mpd_file
