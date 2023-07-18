@@ -1,5 +1,13 @@
 from __future__ import division
-import Queue
+import sys
+
+if sys.version_info[0] < 3:
+    # Python 2
+    import Queue as queue_module
+else:
+    # Python 3
+    import queue as queue_module
+
 import threading
 import time
 import csv
@@ -43,7 +51,7 @@ class DashPlayer:
         self.beta = config_dash.BETA_BUFFER_COUNT
         self.segment_limit = None
         # Current video buffer that holds the segment data
-        self.buffer = Queue.Queue()
+        self.buffer = queue_module.Queue()
         self.buffer_lock = threading.Lock()
         self.current_segment = None
         self.buffer_log_file = config_dash.BUFFER_LOG_FILENAME
