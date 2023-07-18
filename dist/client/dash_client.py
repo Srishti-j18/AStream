@@ -14,8 +14,24 @@ Testing:
 """
 from __future__ import division
 import read_mpd
-import urlparse
-import urllib2
+import six
+
+import sys
+import sys
+
+if sys.version_info[0] < 3:
+    # Python 2
+    import urlparse
+    import urllib2 as urllib_request
+    import urllib2 as urllib_error
+else:
+    # Python 3
+    from urllib import parse as urlparse
+    from urllib import request as urllib_request
+    from urllib import error as urllib_error
+
+
+
 import random
 import os
 import sys
