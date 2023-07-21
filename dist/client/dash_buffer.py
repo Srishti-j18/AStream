@@ -1,6 +1,7 @@
 from __future__ import division
 import sys
-
+import six
+import io
 if sys.version_info[0] < 3:
     # Python 2
     import Queue as queue_module
@@ -255,10 +256,19 @@ class DashPlayer:
                 stats = (log_time, str(self.playback_timer.time()), self.buffer.qsize(),
                          self.playback_state, action,bitrate)
             str_stats = [str(i) for i in stats]
-            with open(self.buffer_log_file, "ab") as log_file_handle:
-                result_writer = csv.writer(log_file_handle, delimiter=",")
-                if header_row:
-                    result_writer.writerow(header_row)
-                result_writer.writerow(str_stats)
-            config_dash.LOG.info("BufferStats: EpochTime=%s,CurrentPlaybackTime=%s,CurrentBufferSize=%s,"
+            if sys.version_info[0] < 3:
+                with open(self.buffer_log_file, "ab") as log_file_handle:
+                    result_writer = csv.writer(log_file_handle, delimiter=",")
+                    if header_row:
+                        result_writer.writerow(header_row)
+                    result_writer.writerow(str_stats)
+                config_dash.LOG.info("BufferStats: EpochTime=%s,CurrentPlaybackTime=%s,CurrentBufferSize=%s,"
+                                 "CurrentPlaybackState=%s,Action=%s,Bitrate=%s" % tuple(str_stats))
+            else:    
+                with open(self.buffer_log_file, "ab" if six.PY2 else "a", newline="") as log_file_handle:
+                    result_writer = csv.writer(log_file_handle)
+                    if header_row:
+                        result_writer.writerow(header_row)
+                    result_writer.writerow(str_stats)
+                config_dash.LOG.info("BufferStats: EpochTime=%s,CurrentPlaybackTime=%s,CurrentBufferSize=%s,"
                                  "CurrentPlaybackState=%s,Action=%s,Bitrate=%s" % tuple(str_stats))
