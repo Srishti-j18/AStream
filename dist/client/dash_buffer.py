@@ -1,5 +1,14 @@
 from __future__ import division
-import Queue
+import sys
+import six
+import io
+if sys.version_info[0] < 3:
+    # Python 2
+    import Queue as queue_module
+else:
+    # Python 3
+    import queue as queue_module
+
 import threading
 import time
 import csv
@@ -21,8 +30,8 @@ class DashPlayer:
         self.playback_start_time = None
         self.playback_duration = video_length
         self.segment_duration = segment_duration
-        #print "video_length = {}".format(video_length)
-        #print "segment_duration = {}".format(segment_duration)
+        #print("video_length = {}".format(video_length))
+        #print("segment_duration = {}".format(segment_duration))
         # Timers to keep track of playback time and the actual time
         self.playback_timer = StopWatch()
         self.actual_start_time = None
@@ -43,7 +52,7 @@ class DashPlayer:
         self.beta = config_dash.BETA_BUFFER_COUNT
         self.segment_limit = None
         # Current video buffer that holds the segment data
-        self.buffer = Queue.Queue()
+        self.buffer = queue_module.Queue()
         self.buffer_lock = threading.Lock()
         self.current_segment = None
         self.buffer_log_file = config_dash.BUFFER_LOG_FILENAME
@@ -247,10 +256,19 @@ class DashPlayer:
                 stats = (log_time, str(self.playback_timer.time()), self.buffer.qsize(),
                          self.playback_state, action,bitrate)
             str_stats = [str(i) for i in stats]
-            with open(self.buffer_log_file, "ab") as log_file_handle:
-                result_writer = csv.writer(log_file_handle, delimiter=",")
-                if header_row:
-                    result_writer.writerow(header_row)
-                result_writer.writerow(str_stats)
-            config_dash.LOG.info("BufferStats: EpochTime=%s,CurrentPlaybackTime=%s,CurrentBufferSize=%s,"
+            if sys.version_info[0] < 3:
+                with open(self.buffer_log_file, "ab") as log_file_handle:
+                    result_writer = csv.writer(log_file_handle, delimiter=",")
+                    if header_row:
+                        result_writer.writerow(header_row)
+                    result_writer.writerow(str_stats)
+                config_dash.LOG.info("BufferStats: EpochTime=%s,CurrentPlaybackTime=%s,CurrentBufferSize=%s,"
+                                 "CurrentPlaybackState=%s,Action=%s,Bitrate=%s" % tuple(str_stats))
+            else:    
+                with open(self.buffer_log_file, "ab" if six.PY2 else "a", newline="") as log_file_handle:
+                    result_writer = csv.writer(log_file_handle)
+                    if header_row:
+                        result_writer.writerow(header_row)
+                    result_writer.writerow(str_stats)
+                config_dash.LOG.info("BufferStats: EpochTime=%s,CurrentPlaybackTime=%s,CurrentBufferSize=%s,"
                                  "CurrentPlaybackState=%s,Action=%s,Bitrate=%s" % tuple(str_stats))
