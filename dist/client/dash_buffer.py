@@ -273,4 +273,4 @@ class DashPlayer:
                         result_writer.writerow(header_row)
                     result_writer.writerow(str_stats)
                 config_dash.LOG.info("BufferStats: EpochTime=%s,CurrentPlaybackTime=%s,CurrentBufferSize=%s,"
-                                 "CurrentPlaybackState=%s,Action=%s,Bitrate=%s" % tuple(str_stats))
+                                 "CurrentPlaybackState=%s,Action=%s,Bitrate=%s,EstimatedDownloadRate=%s" % tuple(str_stats))
