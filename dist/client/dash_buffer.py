@@ -6,7 +6,6 @@ import csv
 import os
 import config_dash
 from stop_watch import StopWatch
-import global_variables
 
 # Durations in seconds
 PLAYER_STATES = ['INITIALIZED', 'INITIAL_BUFFERING', 'PLAY',
@@ -233,7 +232,6 @@ class DashPlayer:
 
     def log_entry(self, action, bitrate=0):
         """Method to log the current state"""
-        download_rate= global_variables.global_download_rate
 
         if self.buffer_log_file:
             header_row = None
@@ -242,12 +240,12 @@ class DashPlayer:
             else:
                 log_time = 0
             if not os.path.exists(self.buffer_log_file):
-                header_row = "EpochTime,CurrentPlaybackTime,CurrentBufferSize,CurrentPlaybackState,Action,Bitrate,EstimatedDownloadRate".split(",")
+                header_row = "EpochTime,CurrentPlaybackTime,CurrentBufferSize,CurrentPlaybackState,Action,Bitrate".split(",")
                 stats = (log_time, str(self.playback_timer.time()), self.buffer.qsize(),
-                         self.playback_state, action,bitrate,download_rate)
+                         self.playback_state, action,bitrate)
             else:
                 stats = (log_time, str(self.playback_timer.time()), self.buffer.qsize(),
-                         self.playback_state, action,bitrate,download_rate)
+                         self.playback_state, action,bitrate)
             str_stats = [str(i) for i in stats]
             with open(self.buffer_log_file, "ab") as log_file_handle:
                 result_writer = csv.writer(log_file_handle, delimiter=",")
@@ -255,4 +253,4 @@ class DashPlayer:
                     result_writer.writerow(header_row)
                 result_writer.writerow(str_stats)
             config_dash.LOG.info("BufferStats: EpochTime=%s,CurrentPlaybackTime=%s,CurrentBufferSize=%s,"
-                                 "CurrentPlaybackState=%s,Action=%s,Bitrate=%s,EstimatedDownloadRate=%s" % tuple(str_stats))
+                                 "CurrentPlaybackState=%s,Action=%s,Bitrate=%s" % tuple(str_stats))
