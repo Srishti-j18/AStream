@@ -1,7 +1,14 @@
 __author__ = 'pjuluri'
 
 import config_dash
+import sys
+import os
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+sys.path.append(parent_dir)
+
+import global_variables
 
 def basic_dash2(segment_number, bitrates, average_dwn_time,
                 recent_download_sizes, previous_segment_times, current_bitrate):
@@ -57,4 +64,5 @@ def basic_dash2(segment_number, bitrates, average_dwn_time,
                 next_rate = bitrates[index - 1]
                 break
     config_dash.LOG.info("Basic Adaptation: Download Rate = {}, next_bitrate = {}".format(download_rate, next_rate))
+    global_variables.global_download_rate = download_rate
     return next_rate, updated_dwn_time
