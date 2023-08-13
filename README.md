@@ -48,15 +48,19 @@ sudo apt install -y python3 ffmpeg
 #### Option2 (Python2):
 Alternatively, If anyone would like to use Python2 for the experiments, follow these instructions:
 
-Install Python 2 and the video encoding utility ffmpeg:
--------------------------------------------------------
+Install Python 2 and the video encoding utility ffmpeg
+
+Run
+---
 ```
 sudo apt update
 sudo apt install -y python2 ffmpeg
 ```
 
-Next, install pip for Python 2 and install the required six library:
---------------------------------------------------------------------
+Next, install pip for Python 2 and install the required six library
+
+Run
+---
 ```
 sudo apt update
 wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
