@@ -32,6 +32,12 @@ Playback Logs:
 7. Segment Duration
 8. Weighted harmonic mean average download rate
 
+Requirements
+------------
+
+ The AStream DASH video client is compatible with both Python 2 and Python 3. For Python 2, you must also install the `six` library.
+
+
 Sample Run
 ----------
 ```
