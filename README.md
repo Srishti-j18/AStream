@@ -31,42 +31,10 @@ Playback Logs:
 7. Segment Duration
 8. Weighted harmonic mean average download rate
 
+Requirements
+------------
 
-
-### The AStream DASH video client is compatible with both Python 2 and Python 3. Therefore, please follow the instructions below before running the DASH client code.
-
-#### Option1 (Python3)
-If you prefer to use Python3 as Python 3 is faster, and its syntax is more user-friendly,We must install Python3 to run the DASH video client, and we will also install the video encoding utility `ffmpeg` so that we can reconstruct the video later
-
-Run
----
-```bash
-sudo apt update
-sudo apt install -y python3 ffmpeg
-```
-
-#### Option2 (Python2)
-Alternatively, If anyone would like to use Python2 for the experiments, follow these instructions:
-
-Install Python 2 and the video encoding utility ffmpeg
-
-Run
----
-```
-sudo apt update
-sudo apt install -y python2 ffmpeg
-```
-
-Next, install pip for Python 2 and install the required six library
-
-Run
----
-```
-sudo apt update
-wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
-sudo python2 get-pip.py
-pip2 install six
-```
+ The AStream DASH video client is compatible with both Python 2 and Python 3. For Python 2, you must also install the `six` library.
 
 
 Sample Run
