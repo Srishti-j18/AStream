@@ -19,7 +19,7 @@ Buffer Logs:
 2. Current Playback Time
 3. Current Buffer Size (in segments)
 4. Current Playback State
-5. EstimatedDownloadRate (For Basic Adaptation)
+5. Estimated Download Rate (For Basic Adaptation)
 
 Playback Logs:
 
